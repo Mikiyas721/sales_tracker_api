@@ -1,0 +1,48 @@
+{
+  "name": "sale_transaction",
+  "plural": "sale_transactions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "sales_phone": {
+      "type": "string",
+      "required": true
+    },
+    "shop_phone": {
+      "type": "string",
+      "required": true
+    },
+    "amount": {
+      "type": "number",
+      "required": true
+    },
+    "time_stamp": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "salesPerson": {
+      "type": "belongsTo",
+      "model": "sales_person",
+      "foreignKey": "phone_number",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "shop": {
+      "type": "belongsTo",
+      "model": "shop",
+      "foreignKey": "phone_number",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
