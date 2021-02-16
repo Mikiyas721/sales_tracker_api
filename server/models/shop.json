@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Stamp": {}
+  },
   "properties": {
     "name": {
       "type": "string",
@@ -15,7 +18,7 @@
       "type": "string",
       "required": true
     },
-    "phone_number": {
+    "phoneNumber": {
       "type": "string",
       "required": true
     },
@@ -25,7 +28,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "salesPeople": {
+      "type": "hasMany",
+      "model": "salesPerson",
+      "foreignKey": "",
+      "through": "shop-sales"
+    }
+  },
   "acls": [],
   "methods": {}
 }

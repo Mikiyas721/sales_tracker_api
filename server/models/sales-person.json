@@ -1,35 +1,41 @@
 {
-  "name": "sales_person",
-  "plural": "sales_people",
+  "name": "salesPerson",
+  "plural": "salesPeople",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
+  },
+  "mixins": {
+    "Stamp": {}
   },
   "properties": {
     "name": {
       "type": "string",
       "required": true
     },
-    "phone_number": {
+    "phoneNumber": {
       "type": "string",
       "required": true
-    },
-    "shop_list": {
-      "type": [
-        "string"
-      ]
     }
   },
   "validations": [],
   "relations": {
+    "fundTransactions": {
+      "type": "hasMany",
+      "model": "fundTransaction",
+      "foreignKey": ""
+    },
+    "saleTransactions": {
+      "type": "hasMany",
+      "model": "saleTransaction",
+      "foreignKey": ""
+    },
     "shops": {
       "type": "hasMany",
       "model": "shop",
-      "foreignKey": "phone_number",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "",
+      "through": "shop-sales"
     }
   },
   "acls": [],

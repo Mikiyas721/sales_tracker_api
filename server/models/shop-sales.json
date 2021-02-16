@@ -1,6 +1,5 @@
 {
-  "name": "fundTransaction",
-  "plural": "fundTransactions",
+  "name": "shop-sales",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -9,12 +8,7 @@
   "mixins": {
     "Stamp": {}
   },
-  "properties": {
-    "amount": {
-      "type": "number",
-      "required": true
-    }
-  },
+  "properties": {},
   "validations": [],
   "relations": {
     "salesPerson": {

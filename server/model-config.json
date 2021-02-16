@@ -13,7 +13,7 @@
       "./mixins"
     ]
   },
-  "sales_person": {
+  "salesPerson": {
     "dataSource": "mongodb",
     "public": true
   },
@@ -21,11 +21,15 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "sale_transaction": {
+  "saleTransaction": {
     "dataSource": "mongodb",
     "public": true
   },
-  "fund_transaction": {
+  "fundTransaction": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "shop-sales": {
     "dataSource": "mongodb",
     "public": true
   }
