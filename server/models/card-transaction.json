@@ -1,6 +1,6 @@
 {
-  "name": "fundTransaction",
-  "plural": "fundTransactions",
+  "name": "cardTransaction",
+  "plural": "cardTransactions",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

@@ -21,11 +21,11 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "saleTransaction": {
+  "cardTransaction": {
     "dataSource": "mongodb",
     "public": true
   },
-  "fundTransaction": {
+  "cashTransaction": {
     "dataSource": "mongodb",
     "public": true
   },

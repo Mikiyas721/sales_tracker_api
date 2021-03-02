@@ -1,6 +1,6 @@
 {
-  "name": "saleTransaction",
-  "plural": "saleTransactions",
+  "name": "cashTransaction",
+  "plural": "cashTransactions",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
