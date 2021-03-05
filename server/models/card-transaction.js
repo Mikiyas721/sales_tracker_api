@@ -19,22 +19,22 @@ module.exports = function (Cardtransaction) {
 
   Cardtransaction.remoteMethod('addSalesTransaction', {
     accepts: [{
-      arg: 'cardTransaction',
+      arg: 'card',
       type: {
         "amount": "number",
         "salesPersonId": "string",
         "shopId": "string",
         "createdAt": "date",
         "updatedAt": "date"
-      }
+      }, http: {source: 'body'}
     }, {
-      arg: 'cashTransaction', type: {
+      arg: 'cash', type: {
         "amount": "number",
         "salesPersonId": "string",
         "shopId": "string",
         "createdAt": "date",
         "updatedAt": "date"
-      }
+      }, http: {source: 'body'}
     }], returns: {
       arg: 'sales', type: {
         "cardId": "string",

@@ -14,16 +14,16 @@ module.exports = function (Shop) {
   Shop.remoteMethod('addSalespersonShop', {
     accepts: [
       {
-        arg: 'shop', type: {
+        arg: 'shopToSave', type: {
           "name": "string",
           "address": "string",
           "phoneNumber": "string",
           "balance": "number",
           "createdAt": "date",
           "updatedAt": "date"
-        }
+        }, http: {source: 'body'}
       },
-      {arg: 'salespersonId', type: 'string'}
+      {arg: 'salespersonId', type: "string", http: {source: 'body'}}
     ],
     returns: {
       arg: 'shop', type: {
