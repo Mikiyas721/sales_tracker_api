@@ -3,39 +3,48 @@
 module.exports = function (Cardtransaction) {
 
   Cardtransaction.addSalesTransaction = async function (card, cash) {
+    console.log(card);
+    console.log(cash);
     const cardResult = await Cardtransaction.create(card);
-    const cashResult = await Cardtransaction.app.models.cashTransaction.create(cash);
+    let cashResult;
+    if (cash.amount !== 0)
+      cashResult = await Cardtransaction.app.models.cashTransaction.create(cash);
     return {
       "cardId": cardResult.id,
-      "cashId": cashResult.id,
+      "cashId": cashResult === undefined ? null : cashResult.id,
       "soldAmount": cardResult.amount,
-      "receivedAmount": cashResult.amount,
+      "receivedAmount": cashResult === undefined ? 0 : cashResult.amount,
       "salesPersonId": cardResult.salesPersonId,
       "shopId": cardResult.shopId,
-      "createdAt": cashResult.createdAt,
-      "updatedAt": cashResult.updatedAt
+      "createdAt": cardResult.createdAt,
+      "updatedAt": cardResult.updatedAt
     }
   }
 
   Cardtransaction.remoteMethod('addSalesTransaction', {
-    accepts: [{
-      arg: 'card',
-      type: {
-        "amount": "number",
-        "salesPersonId": "string",
-        "shopId": "string",
-        "createdAt": "date",
-        "updatedAt": "date"
-      }, http: {source: 'body'}
-    }, {
-      arg: 'cash', type: {
-        "amount": "number",
-        "salesPersonId": "string",
-        "shopId": "string",
-        "createdAt": "date",
-        "updatedAt": "date"
-      }, http: {source: 'body'}
-    }], returns: {
+    accepts: [
+      {
+        arg: 'card',
+        type: {
+          "amount": "number",
+          "salesPersonId": "string",
+          "shopId": "string",
+          "createdAt": "date",
+          "updatedAt": "date"
+        },
+        http: {source: 'body'}
+      },
+      {
+        arg: 'cash',
+        type: {
+          "amount": "number",
+          "salesPersonId": "string",
+          "shopId": "string",
+          "createdAt": "date",
+          "updatedAt": "date"
+        },
+        http: {source: 'body'}
+      }], returns: {
       arg: 'sales', type: {
         "cardId": "string",
         "cashId": "string",
