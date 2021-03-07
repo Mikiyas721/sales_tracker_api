@@ -2,7 +2,7 @@
 
 module.exports = function (Cardtransaction) {
 
-  Cardtransaction.addSalesTransaction = async function (card, cash) {
+  Cardtransaction.addSalesTransaction = async function ({card, cash}) {
     console.log(card);
     console.log(cash);
     const cardResult = await Cardtransaction.create(card);
@@ -26,25 +26,25 @@ module.exports = function (Cardtransaction) {
       {
         arg: 'card',
         type: {
-          "amount": "number",
-          "salesPersonId": "string",
-          "shopId": "string",
-          "createdAt": "date",
-          "updatedAt": "date"
+          "card": {
+            "amount": "number",
+            "salesPersonId": "string",
+            "shopId": "string",
+            "createdAt": "date",
+            "updatedAt": "date"
+          },
+          "cash": {
+            "amount": "number",
+            "salesPersonId": "string",
+            "shopId": "string",
+            "createdAt": "date",
+            "updatedAt": "date"
+          }
         },
         http: {source: 'body'}
       },
-      {
-        arg: 'cash',
-        type: {
-          "amount": "number",
-          "salesPersonId": "string",
-          "shopId": "string",
-          "createdAt": "date",
-          "updatedAt": "date"
-        },
-        http: {source: 'body'}
-      }], returns: {
+    ],
+    returns: {
       arg: 'sales', type: {
         "cardId": "string",
         "cashId": "string",

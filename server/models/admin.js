@@ -1,21 +1,21 @@
 'use strict';
 
-module.exports = function(SalesPerson) {
+module.exports = function (Admin) {
   const firebaseAdmin = require("firebase-admin");
 
 
-  SalesPerson.createAccessToken = async function (salesPersonId) {
-    const AccessTokenModel = SalesPerson.app.models.CustomAccessToken;
+  Admin.createAccessToken = async function (adminId) {
+    const AccessTokenModel = Admin.app.models.CustomAccessToken;
     return AccessTokenModel.create(
       {
-        ttl: 1000 * 3600 * 24 * 365, userId: salesPersonId,
+        ttl: 1000 * 3600 * 24 * 365, userId: adminId,
       }, {
-        userId: salesPersonId,
+        userId: adminId,
       },
     );
   };
 
-  SalesPerson.validateCredential = async function (credentials) {
+  Admin.validateCredential = async function (credentials) {
     if (!credentials.idToken) {
       const err = new Error('token is required');
       err.statusCode = 400;
@@ -30,7 +30,7 @@ module.exports = function(SalesPerson) {
     }
   };
 
-  SalesPerson.verifyIdToken = async function (idToken) {
+  Admin.verifyIdToken = async function (idToken) {
     try {
       const decodedToken = await firebaseAdmin.auth.verifyIdToken(idToken);
       const uid = decodedToken.uid;
@@ -44,25 +44,25 @@ module.exports = function(SalesPerson) {
     }
   };
 
-  SalesPerson.login = async function ({idToken}) {
-    const phone = await SalesPerson.verifyIdToken(idToken);
-    const salesPerson = await SalesPerson.findOne({
+  Admin.login = async function ({idToken}) {
+    const phone = await Admin.verifyIdToken(idToken);
+    const admin = await Admin.findOne({
       phoneNumber: phone,
     })
-    if (!salesPerson) {
+    if (!admin) {
       const err = new Error('Admin account not found');
       err.statusCode = 404;
       err.code = 'ADMIN_ACCOUNT_NOT_FOUND';
       throw err;
     }
-    const accessToken = await SalesPerson.createAccessToken(salesPerson.id);
+    const accessToken = await Admin.createAccessToken(admin.id);
     return {
       token: accessToken.id,
-      ...salesPerson,
+      admin: admin,
     };
   };
 
-  SalesPerson
+  Admin
     .remoteMethod('login', {
       accepts: [
         {

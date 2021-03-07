@@ -1,24 +1,29 @@
 {
-  "name": "shop-sales",
+  "name": "admin",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "mixins": {
-    "Stamp": {}
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "roleId": {
+      "type": "string",
+      "default": "admin"
+    }
   },
-  "properties": {},
   "validations": [],
   "relations": {
-    "salesPerson": {
+    "role": {
       "type": "belongsTo",
-      "model": "salesPerson",
-      "foreignKey": ""
-    },
-    "shop": {
-      "type": "belongsTo",
-      "model": "shop",
+      "model": "Role",
       "foreignKey": ""
     }
   },
@@ -28,6 +33,13 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "login"
     },
     {
       "accessType": "*",

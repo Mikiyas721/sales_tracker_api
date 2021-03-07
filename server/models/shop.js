@@ -11,7 +11,7 @@ module.exports = function (Shop) {
 
     return shopResult['shop'];
   }
-  Shop.remoteMethod('addSalespersonShop', {
+  Shop.remoteMethod('addSalespersonShop/{salesPersonId}', {
     accepts: [
       {
         arg: 'shopToSave', type: {
@@ -23,7 +23,7 @@ module.exports = function (Shop) {
           "updatedAt": "date"
         }, http: {source: 'body'}
       },
-      {arg: 'salespersonId', type: "string", http: {source: 'body'}}
+      {arg: 'salesPersonId', type: "string", required: true}
     ],
     returns: {
       arg: 'shop', type: {
