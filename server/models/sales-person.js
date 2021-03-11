@@ -32,19 +32,21 @@ module.exports = function(SalesPerson) {
 
   SalesPerson.verifyIdToken = async function (idToken) {
     try {
-      const decodedToken = await firebaseAdmin.auth.verifyIdToken(idToken);
+      const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
       const uid = decodedToken.uid;
-      const firebaseUser = await firebaseAdmin.auth.getUser(uid);
+      const firebaseUser = await firebaseAdmin.auth().getUser(uid);
       return firebaseUser.phoneNumber;
     } catch (e) {
-      const err = new Error('Invalid token');
+      console.log(e);
+     /* const err = new Error('Invalid token');
       err.statusCode = 400;
       err.code = 'INVALID_TOKEN';
-      throw err;
+      throw err;*/
     }
   };
 
   SalesPerson.login = async function ({idToken}) {
+    console.log(idToken);
     const phone = await SalesPerson.verifyIdToken(idToken);
     const salesPerson = await SalesPerson.findOne({
       phoneNumber: phone,
@@ -58,7 +60,7 @@ module.exports = function(SalesPerson) {
     const accessToken = await SalesPerson.createAccessToken(salesPerson.id);
     return {
       token: accessToken.id,
-      ...salesPerson,
+      ...salesPerson.__data,
     };
   };
 

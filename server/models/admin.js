@@ -32,9 +32,9 @@ module.exports = function (Admin) {
 
   Admin.verifyIdToken = async function (idToken) {
     try {
-      const decodedToken = await firebaseAdmin.auth.verifyIdToken(idToken);
+      const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
       const uid = decodedToken.uid;
-      const firebaseUser = await firebaseAdmin.auth.getUser(uid);
+      const firebaseUser = await firebaseAdmin.auth().getUser(uid);
       return firebaseUser.phoneNumber;
     } catch (e) {
       const err = new Error('Invalid token');
