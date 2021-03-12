@@ -9,9 +9,9 @@ module.exports = function (Shop) {
         "shopId": shopResult.id
       });
 
-    return shopResult['shop'];
+    return shopResult["0"];
   }
-  Shop.remoteMethod('addSalespersonShop/{salesPersonId}', {
+  Shop.remoteMethod('addSalespersonShop', {
     accepts: [
       {
         arg: 'shopToSave', type: {
@@ -23,7 +23,7 @@ module.exports = function (Shop) {
           "updatedAt": "date"
         }, http: {source: 'body'}
       },
-      {arg: 'salesPersonId', type: "string", required: true}
+      {arg: 'salesPersonId', type: "string", required: true},
     ],
     returns: {
       arg: 'shop', type: {
@@ -35,7 +35,9 @@ module.exports = function (Shop) {
         "createdAt": "date",
         "updatedAt": "date"
       }
+      ,root:true
     },
+    http: {path: '/addSalespersonShop/:salesPersonId', verb: 'post'},
     description: 'Adds Shop to both shop and shop-sales databases'
   })
 };

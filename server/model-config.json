@@ -41,7 +41,7 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "shop-sales": {
+  "shopSales": {
     "dataSource": "mongodb",
     "public": true
   },

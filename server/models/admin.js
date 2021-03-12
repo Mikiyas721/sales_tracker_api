@@ -30,6 +30,10 @@ module.exports = function (Admin) {
     }
   };
 
+  Admin.putt=async function(){
+
+  }
+
   Admin.verifyIdToken = async function (idToken) {
     try {
       const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
