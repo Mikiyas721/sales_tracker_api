@@ -3,10 +3,10 @@
 module.exports = function (Shop) {
   Shop.addSalespersonShop = async function (shopToSave, salespersonId) {
     const shopResult = await Shop.findOrCreate({where: {phoneNumber: {eq: `${shopToSave.phoneNumber}`}}}, shopToSave);
-    await Shop.app.models.shopSales.create(
+    await Shop.app.models.shopSales.findOrCreate({where: {and: [{salesPersonId: {eq: salespersonId}}, {shopId: {eq: shopResult.id}}]}},
       {
         "salesPersonId": salespersonId,
-        "shopId": shopResult.id
+        "shopId": shopResult[0].id
       });
 
     return shopResult["0"];
@@ -35,7 +35,7 @@ module.exports = function (Shop) {
         "createdAt": "date",
         "updatedAt": "date"
       }
-      ,root:true
+      , root: true
     },
     http: {path: '/addSalespersonShop/:salesPersonId', verb: 'post'},
     description: 'Adds Shop to both shop and shop-sales databases'
