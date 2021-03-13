@@ -30,10 +30,6 @@ module.exports = function (Admin) {
     }
   };
 
-  Admin.putt=async function(){
-
-  }
-
   Admin.verifyIdToken = async function (idToken) {
     try {
       const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
@@ -41,10 +37,11 @@ module.exports = function (Admin) {
       const firebaseUser = await firebaseAdmin.auth().getUser(uid);
       return firebaseUser.phoneNumber;
     } catch (e) {
-      const err = new Error('Invalid token');
+		console.log(e);
+      /*const err = new Error('Invalid token');
       err.statusCode = 400;
       err.code = 'INVALID_TOKEN';
-      throw err;
+      throw err;*/
     }
   };
 
@@ -62,7 +59,7 @@ module.exports = function (Admin) {
     const accessToken = await Admin.createAccessToken(admin.id);
     return {
       token: accessToken.id,
-      admin: admin,
+      ...admin.__data,
     };
   };
 
