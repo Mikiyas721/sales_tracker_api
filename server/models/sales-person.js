@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(SalesPerson) {
+module.exports = function (SalesPerson) {
   const firebaseAdmin = require("firebase-admin");
 
 
@@ -38,10 +38,10 @@ module.exports = function(SalesPerson) {
       return firebaseUser.phoneNumber;
     } catch (e) {
       console.log(e);
-     /* const err = new Error('Invalid token');
-      err.statusCode = 400;
-      err.code = 'INVALID_TOKEN';
-      throw err;*/
+      /* const err = new Error('Invalid token');
+       err.statusCode = 400;
+       err.code = 'INVALID_TOKEN';
+       throw err;*/
     }
   };
 
@@ -64,6 +64,52 @@ module.exports = function(SalesPerson) {
     };
   };
 
+  SalesPerson.getBalance = async function (salesPersonId) {
+    const cardTransactions = await SalesPerson.app.models.cardTransaction.find(
+      {where: {salesPersonId: {eq: salesPersonId}}});
+    const cashTransactions = await SalesPerson.app.models.cashTransaction.find(
+      {where: {salesPersonId: {eq: salesPersonId}}});
+    let totalCard = 0;
+    cardTransactions.forEach((element) => {
+      totalCard += element.amount;
+    });
+    let totalCash = 0;
+    cashTransactions.forEach((element) => {
+      totalCash += element.amount;
+    });
+    return totalCard - totalCash;
+  }
+
+  SalesPerson.getOwingSalespeople = async function () {
+    const salesPeople = await SalesPerson.find();
+    let owingPeople = [];
+
+    for (let index in salesPeople) {
+      let salespersonBalance = await SalesPerson.getBalance(salesPeople[index].id);
+      if (salespersonBalance > 0) owingPeople.push({
+        balance: salespersonBalance,
+        ...salesPeople[index].__data
+      })
+    }
+    return owingPeople;
+  }
+
+  SalesPerson.remoteMethod('getOwingSalespeople', {
+    returns: {arg: 'salespeople', type: 'array'},
+    description: 'Fetches owing salespeople'
+  });
+
+  SalesPerson.remoteMethod('getBalance',
+    {
+      accepts:
+        [
+          {arg: 'salesPersonId', type: 'string'},
+        ],
+      returns: {arg: 'balance', type: 'number'},
+      http: {path: '/getBalance/:salesPersonId', verb: 'post'},
+      description: 'Fetches salesperson balance'
+    });
+
   SalesPerson
     .remoteMethod('login', {
       accepts: [
@@ -78,4 +124,5 @@ module.exports = function(SalesPerson) {
       ],
       returns: {arg: 'account', type: 'object', root: true},
     });
+
 };

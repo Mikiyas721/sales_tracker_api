@@ -3,8 +3,6 @@
 module.exports = function (Cardtransaction) {
 
   Cardtransaction.addSalesTransaction = async function ({card, cash}) {
-    console.log(card);
-    console.log(cash);
     const cardResult = await Cardtransaction.create(card);
     let cashResult;
     if (cash.amount !== 0)
