@@ -2,7 +2,7 @@
   "mongodb": {
     "host": "localhost",
     "port": 27017,
-    "url": "",
+    "url": "mongodb+srv://questionrealbot:YjkUXwkGk2zVPKP@questionrealbot-3qzfw.mongodb.net/test?retryWrites=true&w=majority",
     "database": "sales",
     "password": "",
     "name": "mongodb",
